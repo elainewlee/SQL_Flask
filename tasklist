@@ -1,0 +1,11 @@
+User
+id
+email
+password
+name
+
+Task
+id
+title
+created_at
+completed_at
