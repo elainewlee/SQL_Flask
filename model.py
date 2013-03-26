@@ -60,6 +60,26 @@ def complete_task(DB, id): #Marks a task as being complete, setting the complete
 	CONN.commit()
 	return id	
 
+def get_tasks(DB, user_id=None): #Gets all the tasks for the given user id. Returns all the tasks in the system if no user_id is given. Returns them as a list of dictionaries.
+	
+	if user_id == None: #Returns all the tasks in the system if no user_id is given.
+		query = """SELECT * FROM Tasks"""
+		cursor = DB.execute(query)
+		rows = cursor.fetchall()		
+		return rows
+	else: #Gets all the tasks for the given user id.Returns them as a list of dictionaries.
+		query = """SELECT * FROM Tasks WHERE user_id=?"""
+		cursor = DB.execute(query,(user_id, )) # Tuple of
+		rows = cursor.fetchall()	
+		return rows
+
+	tasks = []
+	for row in rows: #add individual tasks to task list
+		task = dict(zip(["id","title", "created_at", "completed_at", "user_id"], row))
+		tasks.append(tasks)
+	return tasks
+
+
 def get_task(DB, id): #Get a single task, given its id. Return the task as a dictionary as above in the authenticate method.
 	query = """SELECT * FROM Tasks WHERE id=?"""
 	DB.execute(query,(id))
